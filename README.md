@@ -1,55 +1,110 @@
 # isat-subtask2.
-# Conversion Functions
+#include <iostream>
+#include <string>
+#include <bitset>
+#include <sstream>
+#include <algorithm>
 
-def decimal_to_binary(num: int) -> str:
-    return bin(num).replace("0b", "")
+using namespace std;
 
-def binary_to_decimal(binary_str: str) -> int:
-    return int(binary_str, 2)
+// Function to convert Decimal to Binary
+string decimalToBinary(int num) {
+    return bitset<32>(num).to_string().substr(bitset<32>(num).to_string().find('1'));
+}
 
-def decimal_to_hexadecimal(num: int) -> str:
-    return hex(num).replace("0x", "").upper()
+// Function to convert Binary to Decimal
+int binaryToDecimal(string binaryStr) {
+    int decimal = 0;
+    try {
+        decimal = stoi(binaryStr, nullptr, 2);
+    } catch (...) {
+        throw invalid_argument("Invalid binary number.");
+    }
+    return decimal;
+}
 
-def hexadecimal_to_decimal(hex_str: str) -> int:
-    return int(hex_str, 16)
+// Function to convert Decimal to Hexadecimal
+string decimalToHexadecimal(int num) {
+    stringstream ss;
+    ss << hex << uppercase << num;
+    return ss.str();
+}
+
+// Function to convert Hexadecimal to Decimal
+int hexadecimalToDecimal(string hexStr) {
+    int decimal = 0;
+    try {
+        decimal = stoi(hexStr, nullptr, 16);
+    } catch (...) {
+        throw invalid_argument("Invalid hexadecimal number.");
+    }
+    return decimal;
+}
+
+// Menu Function
+void menu() {
+    while (true) {
+        cout << "\n=== Conversion Menu ===" << endl;
+        cout << "1. Convert Decimal to Binary" << endl;
+        cout << "2. Convert Binary to Decimal" << endl;
+        cout << "3. Convert Decimal to Hexadecimal" << endl;
+        cout << "4. Convert Hexadecimal to Decimal" << endl;
+        cout << "5. Exit" << endl;
+
+        cout << "Enter your choice (1-5): ";
+        string choice;
+        getline(cin, choice);
+
+        if (choice == "1") {
+            int dec;
+            cout << "Enter a decimal number: ";
+            cin >> dec;
+            cin.ignore();
+            cout << "Binary equivalent: " << decimalToBinary(dec) << endl;
+        }
+        else if (choice == "2") {
+            string binary;
+            cout << "Enter a binary number: ";
+            getline(cin, binary);
+            try {
+                cout << "Decimal equivalent: " << binaryToDecimal(binary) << endl;
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+            }
+        }
+        else if (choice == "3") {
+            int dec;
+            cout << "Enter a decimal number: ";
+            cin >> dec;
+            cin.ignore();
+            cout << "Hexadecimal equivalent: " << decimalToHexadecimal(dec) << endl;
+        }
+        else if (choice == "4") {
+            string hex;
+            cout << "Enter a hexadecimal number: ";
+            getline(cin, hex);
+            try {
+                cout << "Decimal equivalent: " << hexadecimalToDecimal(hex) << endl;
+            } catch (const exception& e) {
+                cout << e.what() << endl;
+            }
+        }
+        else if (choice == "5") {
+            cout << "Exiting program..." << endl;
+            break;
+        }
+        else {
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    }
+}
+
+// Main Function
+int main() {
+    menu();
+    return 0;
+}
 
 
-# Menu Driven Program
-def menu():
-    while True:
-        print("\n=== Conversion Menu ===")
-        print("1. Convert Decimal to Binary")
-        print("2. Convert Binary to Decimal")
-        print("3. Convert Decimal to Hexadecimal")
-        print("4. Convert Hexadecimal to Decimal")
-        print("5. Exit")
-        
-        choice = input("Enter your choice (1-5): ")
-        
-        if choice == "1":
-            dec = int(input("Enter a decimal number: "))
-            print("Binary equivalent:", decimal_to_binary(dec))
-        
-        elif choice == "2":
-            binary = input("Enter a binary number: ")
-            print("Decimal equivalent:", binary_to_decimal(binary))
-        
-        elif choice == "3":
-            dec = int(input("Enter a decimal number: "))
-            print("Hexadecimal equivalent:", decimal_to_hexadecimal(dec))
-        
-        elif choice == "4":
-            hexa = input("Enter a hexadecimal number: ")
-            print("Decimal equivalent:", hexadecimal_to_decimal(hexa))
-        
-        elif choice == "5":
-            print("Exiting program...")
-            break
-        
-        else:
-            print("Invalid choice! Please try again.")
 
 
-# Run program
-if __name__ == "__main__":
-    menu()
